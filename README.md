@@ -84,5 +84,6 @@ easy as `make debug`.
 5. Networking
 6. Sound system
 
-
 ## Contribution
+If you would like to join developers team of LeOS you are very welcome.
+Feel free to perform pull request or [contact me](https://lowenware.com/contact/).
