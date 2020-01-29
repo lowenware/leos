@@ -1,0 +1,86 @@
+/******************************************************************************
+ *
+ *                Copyright (c) 2017-2019 by Löwenware Ltd
+ *             Please, refer LICENSE file for legal information
+ *
+ ******************************************************************************/
+
+/**
+ * @file bcm2837.h
+ * @author Ilja Kartašov <ik@lowenware.com>
+ * @brief 
+ *
+ * @see https://lowenware.com/
+ */
+
+#ifndef BCM2837_H_13CD1DB9_AAD7_4F1C_8669_37DED77135D1
+#define BCM2837_H_13CD1DB9_AAD7_4F1C_8669_37DED77135D1
+
+#define PERIPHERAL_BASE 0x3F000000
+
+/* Reserve 4 MB for the Kernel and its stack */
+#define MEMORY_LOW (4 * 1024 * 1024)
+
+#define MEMORY_HIGH PERIPHERAL_BASE
+
+#define MEMORY_SIZE (MEMORY_HIGH - MEMORY_LOW)
+
+#define MEMORY_PAGE_SIZE (4 * 1024)
+
+#define MEMORY_PAGE_COUNT (MEMORY_SIZE / MEMORY_PAGE_SIZE)
+
+/* GPIO */
+#define GPFSEL1   (PERIPHERAL_BASE + 0x00200004)
+#define GPSET0    (PERIPHERAL_BASE + 0x0020001C)
+#define GPCLR0    (PERIPHERAL_BASE + 0x00200028)
+#define GPPUD     (PERIPHERAL_BASE + 0x00200094)
+#define GPPUDCLK0 (PERIPHERAL_BASE + 0x00200098)
+
+/* UART MINI */
+#define AUX_ENABLES     (PERIPHERAL_BASE + 0x00215004)
+#define AUX_MU_IO_REG   (PERIPHERAL_BASE + 0x00215040)
+#define AUX_MU_IER_REG  (PERIPHERAL_BASE + 0x00215044)
+#define AUX_MU_IIR_REG  (PERIPHERAL_BASE + 0x00215048)
+#define AUX_MU_LCR_REG  (PERIPHERAL_BASE + 0x0021504C)
+#define AUX_MU_MCR_REG  (PERIPHERAL_BASE + 0x00215050)
+#define AUX_MU_LSR_REG  (PERIPHERAL_BASE + 0x00215054)
+#define AUX_MU_MSR_REG  (PERIPHERAL_BASE + 0x00215058)
+#define AUX_MU_SCRATCH  (PERIPHERAL_BASE + 0x0021505C)
+#define AUX_MU_CNTL_REG (PERIPHERAL_BASE + 0x00215060)
+#define AUX_MU_STAT_REG (PERIPHERAL_BASE + 0x00215064)
+#define AUX_MU_BAUD_REG (PERIPHERAL_BASE + 0x00215068)
+
+/* IRQ */
+#define IRQ_BASIC_PENDING  (PERIPHERAL_BASE + 0x0000B200)
+#define IRQ_PENDING_1      (PERIPHERAL_BASE + 0x0000B204)
+#define IRQ_PENDING_2      (PERIPHERAL_BASE + 0x0000B208)
+#define FIQ_CONTROL        (PERIPHERAL_BASE + 0x0000B20C)
+#define ENABLE_IRQS_1      (PERIPHERAL_BASE + 0x0000B210)
+#define ENABLE_IRQS_2      (PERIPHERAL_BASE + 0x0000B214)
+#define ENABLE_BASIC_IRQS  (PERIPHERAL_BASE + 0x0000B218)
+#define DISABLE_IRQS_1     (PERIPHERAL_BASE + 0x0000B21C)
+#define DISABLE_IRQS_2     (PERIPHERAL_BASE + 0x0000B220)
+#define DISABLE_BASIC_IRQS (PERIPHERAL_BASE + 0x0000B224)
+
+#define LOCAL_TIMER_IRQ 0
+/* SYSTEM TIMER */
+#define SYSTEM_TIMER_IRQ_0 (1 << 0)
+#define SYSTEM_TIMER_IRQ_1 (1 << 1)
+#define SYSTEM_TIMER_IRQ_2 (1 << 2)
+#define SYSTEM_TIMER_IRQ_3 (1 << 3)
+
+/* TIMER */
+#define TIMER_CS  (PERIPHERAL_BASE + 0x00003000)
+#define TIMER_CLO (PERIPHERAL_BASE + 0x00003004)
+#define TIMER_CHI (PERIPHERAL_BASE + 0x00003008)
+#define TIMER_C0  (PERIPHERAL_BASE + 0x0000300C)
+#define TIMER_C1  (PERIPHERAL_BASE + 0x00003010)
+#define TIMER_C2  (PERIPHERAL_BASE + 0x00003014)
+#define TIMER_C3  (PERIPHERAL_BASE + 0x00003018)
+
+#define TIMER_CS_M0 (1 << 0)
+#define TIMER_CS_M1 (1 << 1)
+#define TIMER_CS_M2 (1 << 2)
+#define TIMER_CS_M3 (1 << 3)
+
+#endif /* !BCM2837_H */
