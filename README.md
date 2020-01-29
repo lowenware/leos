@@ -67,18 +67,18 @@ easy as `make debug`.
 ## Roadmap
 
 1. Generic kernel features:
-	[x] Loadable Kernel file
-	[x] UART logging
-	[x] Memory pages avalability bitmap
-	[x] Interrupt vectors table
-	[x] Basic task scheduler
-	[x] Context switching
-	[ ] MMU and entering user level
+	- [x] Loadable Kernel file
+	- [x] UART logging
+	- [x] Memory pages avalability bitmap
+	- [x] Interrupt vectors table
+	- [x] Basic task scheduler
+	- [x] Context switching
+	- [ ] MMU and entering user level
 2. Input/output:
-	[ ] Graphical driver
-	[ ] USB driver
-	[ ] Keyboard input driver
-	[ ] Mouse input driver
+	- [ ] Graphical driver
+	- [ ] USB driver
+	- [ ] Keyboard input driver
+	- [ ] Mouse input driver
 3. Graphical system
 4. Shell and utilities
 5. Networking
