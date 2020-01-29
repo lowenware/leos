@@ -1,0 +1,3 @@
+[submodule "leos-kernel"]
+	path = leos-kernel
+	url = https://github.com/lowenware/leos-kernel
