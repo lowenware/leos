@@ -19,14 +19,13 @@
 #include "timer.h"
 
 #if CONFIG_ARM_TIMER == 1
-const unsigned int m_interval = 500000000;
+#define TIMER_ENABLE ((1 << 31) | (1 << 29) | (1 << 28))
+#define TIMER_RELOAD 5000000
+const unsigned int m_interval = TIMER_RELOAD;
 #else
 const unsigned int m_interval = 200000;
 #endif
 unsigned int m_current = 0;
-
-#define TIMER_ENABLE ((1 << 31) | (1 << 29) | (1 << 28))
-#define TIMER_RELOAD 5000000
 
 void
 Timer_init(void)
@@ -54,7 +53,7 @@ Timer_incFromISR(void)
   m_current += m_interval;
 #if CONFIG_ARM_TIMER == 1
 	/* clear interrupt flag and reload timer */
-//	AARCH64_LOCAL_TIMER_STATCTL |= TIMER_RELOAD;
+	AARCH64_LOCAL_TIMER_STATCTL |= TIMER_RELOAD;
 	AARCH64_LOCAL_TIMER_RECLR |= (1 << 31) | (1 << 30);
 #else
 	AArch64_setReg32(TIMER_C1, m_current);

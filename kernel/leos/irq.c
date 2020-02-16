@@ -55,14 +55,17 @@ IRQ_init()
 void
 IRQ_onInterrupt(void)
 {
+	Log_putS("!");
 	unsigned int irq = AArch64_getReg32(IRQ_PENDING_1);
 
 	switch(irq) {
 #if CONFIG_ARM_TIMER == 1
 	case LOCAL_TIMER_IRQ:
-#endif
+		return IRQ_onTimerInterrupt();
+#else
 	case SYSTEM_TIMER_IRQ_1:
 		return IRQ_onTimerInterrupt();
+#endif
 
 	default:
 		Log_putS("Unhandled irq: ");
