@@ -22,13 +22,15 @@
 #define CONFIG_TASK_MAX_NAME_LEN 16
 #endif
 
+#define TASK_OPT_USERSPACE (1 << 0)
+
 typedef void (*TaskCallback)(void *p_ctx);
 
 void
 Task_initSheduler(void);
 
 PID
-Task_create(TaskCallback callback, void *arg);
+Task_create(TaskCallback callback, void *arg, uint32_t options);
 
 void
 Task_yield(void);
@@ -47,5 +49,8 @@ Task_getStackPointer(void);
 
 void
 Task_setStackPointer(void *sp);
+
+int
+Task_getEL(void);
 
 #endif /* !TASK_H */

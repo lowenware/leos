@@ -38,6 +38,7 @@ struct Task {
 	uint32_t cycles;
 	int32_t priority;
 	uint32_t state;
+	uint32_t options;
 	char name[CONFIG_TASK_MAX_NAME_LEN + 1];
 	struct Task *next;
 };
@@ -107,6 +108,7 @@ Task_initSheduler(void)
 	m_idleTask.name[3] = 'E';
 	m_idleTask.name[4] = 0;
 	m_idleTask.next = NULL;
+	m_idleTask.options = 0;
 
 	m_currentTask = idleTask;
 	m_lastTask = idleTask;
@@ -114,10 +116,11 @@ Task_initSheduler(void)
 }
 
 PID
-Task_create(TaskCallback callback, void *arg)
+Task_create(TaskCallback callback, void *arg, uint32_t options)
 {
 	struct TaskContext *ctx;
 	struct Task *task = Memory_getPage();
+	uint8_t el;
 
 	if (!task)
 		return -1;
@@ -125,9 +128,12 @@ Task_create(TaskCallback callback, void *arg)
 	Log_putS("Task @0x");
 	Log_putU((uint64_t) task, 16);
 	Log_putS(" - ");
-	Log_putU(((uint64_t) task) + MEMORY_PAGE_SIZE, 16);
+	Log_putU(((uint64_t) task) + MEMORY_PAGE_SIZE - 1, 16);
 	Log_putS("\r\n");
 	
+	el = (options & TASK_OPT_USERSPACE) ? AARCH64_PSR_MODE_EL0t
+		: AARCH64_PSR_MODE_EL1h;
+
 	task->sp = (void *)task + MEMORY_PAGE_SIZE - 272;
 	task->stackStart = task->sp;
 	task->stackSize = MEMORY_PAGE_SIZE - sizeof(*task);
@@ -143,13 +149,20 @@ Task_create(TaskCallback callback, void *arg)
 	task->name[3] = 'E';
 	task->name[4] = 0;
 	task->next = 0;
+	task->options = options;
 	
 	ctx = (struct TaskContext *) task->sp;
 	ctx->x[20] = (uint64_t) arg;
 	ctx->x[21] = (uint64_t) callback;
 	ctx->x[30] = (uint64_t) AArch64_startTask;
 	ctx->elr_el1 = (uint64_t) AArch64_startTask;
-	ctx->spsr_el1 = AArch64_getPState();
+	ctx->spsr_el1 = AArch64_getPSR(el);
+
+	Log_putS("ELR_EL1=");
+	Log_putU(ctx->elr_el1, 16);
+	Log_putS("; SPSR_EL1=");
+	Log_putU(ctx->spsr_el1, 16);
+	Log_putS(";\r\n");
 
 	Task_lockScheduler();
 	m_lastTask->next = task;
@@ -260,3 +273,10 @@ Task_setStackPointer(void *sp)
 	*/
 	m_currentTask->sp = sp;
 }
+
+int
+Task_getEL(void)
+{
+	return (m_currentTask->options & TASK_OPT_USERSPACE) ? 0 : 1;
+}
+

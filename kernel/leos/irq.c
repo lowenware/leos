@@ -55,7 +55,6 @@ IRQ_init()
 void
 IRQ_onInterrupt(void)
 {
-	Log_putS("!");
 	unsigned int irq = AArch64_getReg32(IRQ_PENDING_1);
 
 	switch(irq) {

@@ -34,6 +34,8 @@ Leos_run(void)
 
 	Log_putS("Starting LEOS (EL");
 	Log_putI(AArch64_getEL(), 10);
+	Log_putS("), SPSel=");
+	Log_putI(AArch64_getSPSel(), 10);
 	Log_putS(")\r\n");
 
 	AArch64_init();
@@ -46,10 +48,10 @@ Leos_run(void)
 
 	IRQ_enable();
 
-	if (Task_create(Leos_demoTask1, "T1") == -1)
+	if (Task_create(Leos_demoTask1, "T1", 0) == -1)
 		Log_putS("Task 1 was not created\r\n");
 		
-	if (Task_create(Leos_demoTask2, "T2") == -1)
+	if (Task_create(Leos_demoTask2, "T2", TASK_OPT_USERSPACE) == -1)
 		Log_putS("Task 2 was not created\r\n");
 
 
@@ -63,7 +65,7 @@ void
 Leos_demoTask2(void *arg)
 {
 	for (;;) {
-		Log_putS("B");
+		Log_putS("U");
 		Task_yield();
 	}
 }
@@ -71,7 +73,7 @@ void
 Leos_demoTask1(void *arg)
 {
 	for (;;) {
-		Log_putS("A");
+		Log_putS("K");
 		Task_yield();
 	}
 }

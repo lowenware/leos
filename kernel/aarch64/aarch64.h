@@ -27,6 +27,9 @@ extern unsigned int
 AArch64_getEL(void);
 
 extern unsigned int
+AArch64_getSPSel(void);
+
+extern unsigned int
 AArch64_getReg32(unsigned long reg);
 
 extern void
@@ -45,12 +48,21 @@ extern void
 AArch64_memzero(void *addr, unsigned long size);
 
 extern void
+AArch64_memcpy(void *dst, void *src, unsigned long size);
+
+extern void
 AArch64_startTask(void *arg, void *callback);
 
 extern uint32_t
-AArch64_getPState(void);
+AArch64_getPSR(uint8_t el);
 
 extern void
 AArch64_switchContext(void *currentTask, void *nextTask);
+
+extern uint64_t
+AArch64_getSP_EL0(void);
+
+extern uint64_t
+AArch64_getSP_EL1(void);
 
 #endif /* !AARCH64_H */
