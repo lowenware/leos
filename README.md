@@ -1,4 +1,10 @@
 # LeOS
+
+This is an archived version of LeOS that was initially started in C. Recent development is going in
+Rust. For actual version, please refer [master](/lowenware/leos/) branch.
+
+---
+
 Operating System for ARMv8 (aarch64) Architecture
 
 * [The Idea](#The-Idea)
